@@ -179,7 +179,11 @@ function extractPrincipalPlusRoleAndAssumeRole(samlattribute, SAMLAssertion, Ses
     if (err) console.log(err, err.stack); // an error occurred
     else {
       // On succesful API response create file with the STS keys
-      var docContent = "[default]" + LF +
+      if (defaultConfig) {
+        docContent += defaultConfig;
+      }
+
+      var docContent = "[temp]" + LF +
         "aws_access_key_id = " + data.Credentials.AccessKeyId + LF +
         "aws_secret_access_key = " + data.Credentials.SecretAccessKey + LF +
         "aws_session_token = " + data.Credentials.SessionToken;
