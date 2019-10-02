@@ -9,6 +9,8 @@ function save_options() {
 	// Is DEBUG log enabled?
   var DebugLogs = $("#DebugLogs option:selected").val();
 
+  var DefaultConfig = document.getElementById('default_config').value;
+
   // Get the Role_ARN's (Profile/ARNs pairs) entered by the user in the table
   var RoleArns = {};
   // Iterate over all added profiles in the list
@@ -27,7 +29,8 @@ function save_options() {
     FileName: FileName,
 		ApplySessionDuration: ApplySessionDuration,
 		DebugLogs: DebugLogs,
-	  RoleArns: RoleArns
+	  RoleArns: RoleArns,
+	  DefaultConfig: DefaultConfig
   }, function() {
     // Show 'Options saved' message to let user know options were saved.
     var status = document.getElementById('status');
@@ -50,7 +53,8 @@ function restore_options() {
     FileName: 'credentials',
 		ApplySessionDuration: 'yes',
 		DebugLogs: 'no',
-	  RoleArns: {}
+	  RoleArns: {},
+	  DefaultConfig: ''
   }, function(items) {
 	// Set filename
     document.getElementById('FileName').value = items.FileName;
@@ -60,6 +64,8 @@ function restore_options() {
     $("#DebugLogs").val(items.DebugLogs);
 	// Set the html for the Role ARN's Table
 	$("#role_arns").html('<table><tr id="tr_header"><th>Profile</th><th>ARN of the role</th><th></th><th></th></tr></table>');
+
+	$("#default_config").val(items.DefaultConfig);
 	// For each profile/ARN pair add table row (showing the profile-name and ARN)
 	for (var profile in items.RoleArns){
 		if (items.RoleArns.hasOwnProperty(profile)) {
